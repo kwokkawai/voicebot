@@ -7,3 +7,4 @@ __pycache__/
 .Python
 *.log
 KMS/logs/
+RAG/
