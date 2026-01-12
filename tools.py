@@ -24,7 +24,7 @@ class ShopifyTools:
         if order:
             return self.shopify.format_order_info(order)
         else:
-            return f"抱歉，未找到订单号为 {order_number} 的订单"
+            return f"Sorry, no order was found with order number {order_number}."
     
     def get_order_by_id(self, order_id: str) -> str:
         """
@@ -40,7 +40,7 @@ class ShopifyTools:
         if order:
             return self.shopify.format_order_info(order)
         else:
-            return f"抱歉，未找到 ID 为 {order_id} 的订单"
+            return f"Sorry, no order was found with ID {order_id}."
     
     def search_orders_by_email(self, email: str, limit: int = 5) -> str:
         """
@@ -56,12 +56,12 @@ class ShopifyTools:
         orders = self.shopify.search_orders(customer_email=email, limit=limit)
         
         if not orders:
-            return f"未找到邮箱 {email} 的订单"
+            return f"No orders found for email {email}."
         
         if len(orders) == 1:
             return self.shopify.format_order_info(orders[0])
         else:
-            result = f"找到 {len(orders)} 个订单：\n\n"
+            result = f"Found {len(orders)} orders:\n\n"
             for i, order in enumerate(orders, 1):
                 result += f"{i}. {self.shopify.format_order_info(order)}\n\n"
             return result
@@ -79,14 +79,14 @@ class ShopifyTools:
         orders = self.shopify.get_recent_orders(limit=limit)
         
         if not orders:
-            return "目前没有订单"
+            return "There are no orders at the moment."
         
-        result = f"最近的 {len(orders)} 个订单：\n\n"
+        result = f"Most recent {len(orders)} orders:\n\n"
         for i, order in enumerate(orders, 1):
             order_number = order.get('name', 'N/A')
             total = order.get('total_price', '0')
             currency = order.get('currency', 'USD')
-            result += f"{i}. 订单号: {order_number}, 总额: {total} {currency}\n"
+            result += f"{i}. Order: {order_number}, Total: {total} {currency}\n"
         
         return result
 
